@@ -1,0 +1,30 @@
+﻿<Window x:Class="Batch_Video_Converter.frmSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="467" Width="505" ResizeMode="NoResize" Loaded="OnLoaded">
+    <Grid>
+        <TextBox x:Name="txtHBPath" HorizontalAlignment="Left" Height="20" Margin="132,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
+        <TextBox x:Name="txtMp4boxPath" HorizontalAlignment="Left" Height="20" Margin="132,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
+        <TextBox x:Name="txtAtomicParsleyPath" HorizontalAlignment="Left" Height="20" Margin="132,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
+        <TextBox x:Name="txtOutputPath" HorizontalAlignment="Left" Height="20" Margin="132,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
+        <ComboBox x:Name="cmbEncodeProfile" HorizontalAlignment="Left" Margin="132,189,0,0" VerticalAlignment="Top" Width="235" Height="20"/>
+        <Button x:Name="btnHBBrowse" Content="Browse" HorizontalAlignment="Left" Margin="392,26,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="btnHBBrowse_Click"/>
+        <Button x:Name="btnMp4boxBrowse" Content="Browse" HorizontalAlignment="Left" Margin="392,66,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="btnMp4boxBrowse_Click"/>
+        <Button x:Name="btnParsleyPath" Content="Browse" HorizontalAlignment="Left" Margin="392,106,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="btnParsleyPath_Click"/>
+        <Button x:Name="btnOutputBrowse" Content="Browse" HorizontalAlignment="Left" Margin="392,146,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="btnOutputBrowse_Click"/>
+        <Label Content="HandBrakeCLI Path:" HorizontalAlignment="Left" Margin="13,25,0,0" VerticalAlignment="Top"/>
+        <Label Content="mp4box Path:" HorizontalAlignment="Left" Margin="44,65,0,0" VerticalAlignment="Top"/>
+        <Label Content="AtomicParsley Path:" HorizontalAlignment="Left" Margin="13,105,0,0" VerticalAlignment="Top"/>
+        <Label Content="Output Path:" HorizontalAlignment="Left" Margin="50,145,0,0" VerticalAlignment="Top"/>
+        <Label Content="Encoding Profile:" HorizontalAlignment="Left" Margin="28,185,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkRemoveAds" Content="Remove Ads If EDL Present" HorizontalAlignment="Left" Margin="132,230,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkAutoCrop" Content="Auto Crop Video" HorizontalAlignment="Left" Margin="132,253,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkMetadata" Content="Enable Metadata Lookup for SageTV" HorizontalAlignment="Left" Margin="132,276,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkMoviePoster" Content="Enable Getting Poster for Movies" HorizontalAlignment="Left" Margin="132,299,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkImportiTunes" Content="Enable Automatic Import to iTunes" HorizontalAlignment="Left" Margin="132,322,0,0" VerticalAlignment="Top" Checked="Checked" Unchecked="Unchecked"/>
+        <CheckBox x:Name="chkDeleteOutfile" Content="Delete Output File After Importing to iTunes" HorizontalAlignment="Left" Margin="154,345,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnOK" Content="OK" HorizontalAlignment="Left" Margin="132,379,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="btnOK_Click"/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="292,379,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="btnCancel_Click"/>
+
+    </Grid>
+</Window>
