@@ -32,8 +32,3 @@ Lot's of bug fixes.
 To compile this project requires the Windows API Code Pack available here:
 
 http://archive.msdn.microsoft.com/WindowsAPICodePack
-
-TODO:
-Add ability to automatically retrieve metadata and poster from thetvdb.com for TV shows.
-Add ability to automatically retrieve metadata and poster from themoviedb.org for movies.
-Optionally automatically send video to iTunes
