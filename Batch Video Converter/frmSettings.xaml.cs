@@ -239,31 +239,30 @@ namespace Batch_Video_Converter
             Functions.APPath = txtAtomicParsleyPath.Text;
             Functions.OutPath = txtOutputPath.Text;
 
-            jbkey = Registry.CurrentUser.OpenSubKey("Software\\JasonBean", true);
-            bvckey = Registry.CurrentUser.OpenSubKey("Software\\JasonBean\\BVC", true);
+            jbkey = Registry.CurrentUser.OpenSubKey(@"Software\JasonBean", true);
+            bvckey = Registry.CurrentUser.OpenSubKey(@"Software\JasonBean\BVC", true);
 
             if (jbkey == null)
             {
-                Registry.CurrentUser.CreateSubKey("Software\\JasonBean");
+                Registry.CurrentUser.CreateSubKey(@"Software\JasonBean");
             }
 
             if (bvckey == null)
             {
-                Registry.CurrentUser.CreateSubKey("Software\\JasonBean\\BVC");
+                Registry.CurrentUser.CreateSubKey(@"Software\JasonBean\BVC");
+                bvckey = Registry.CurrentUser.OpenSubKey(@"Software\JasonBean\BVC", true);
             }
-
-            bvckey = Registry.CurrentUser.OpenSubKey("Software\\JasonBean\\BVC", true);
 
             bvckey.SetValue("HBPath", txtHBPath.Text);
             bvckey.SetValue("mp4boxPath", txtMp4boxPath.Text);
             bvckey.SetValue("APPath", txtAtomicParsleyPath.Text);
             bvckey.SetValue("OutPath", txtOutputPath.Text);
-            bvckey.SetValue("RemoveAds", Functions.RemoveAds);
-            bvckey.SetValue("AutoCrop", Functions.AutoCrop);
-            bvckey.SetValue("AutoMeta", Functions.AutoTVMeta);
-            bvckey.SetValue("AutoMoviePoster", Functions.AutoMoviePoster);
-            bvckey.SetValue("AutoImportiTunes", Functions.AutoImportiTunes);
-            bvckey.SetValue("AutoDeleteExport", Functions.AutoDeleteExport);
+            bvckey.SetValue("RemoveAds", Functions.RemoveAds.ToString());
+            bvckey.SetValue("AutoCrop", Functions.AutoCrop.ToString());
+            bvckey.SetValue("AutoMeta", Functions.AutoTVMeta.ToString());
+            bvckey.SetValue("AutoMoviePoster", Functions.AutoMoviePoster.ToString());
+            bvckey.SetValue("AutoImportiTunes", Functions.AutoImportiTunes.ToString());
+            bvckey.SetValue("AutoDeleteExport", Functions.AutoDeleteExport.ToString());
             bvckey.SetValue("EncodeProfile", Functions.DefaultEncodeProfile);
 
             this.Close();

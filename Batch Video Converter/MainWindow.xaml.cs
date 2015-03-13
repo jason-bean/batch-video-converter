@@ -30,7 +30,6 @@ namespace Batch_Video_Converter
         public Boolean KillHB = false;
         public double xpos;
         public double ypos;
-        private string registryPath = @"Software\JasonBean\BVC";
 
         public MainWindow()
         {
@@ -39,80 +38,47 @@ namespace Batch_Video_Converter
 
         private void OnLoad(object sender, RoutedEventArgs e)
         {
-
-            string TempForBool;
             System.OperatingSystem osInfo = System.Environment.OSVersion;
+            RegistryKey jbkey = Registry.CurrentUser.OpenSubKey(@"Software\JasonBean", true);
+            RegistryKey bvckey = Registry.CurrentUser.OpenSubKey(@"Software\JasonBean\BVC", true);
 
-            xpos = Convert.ToDouble(Registry.CurrentUser.GetValue(registryPath + "XPos", 100));
-            ypos = Convert.ToDouble(Registry.CurrentUser.GetValue(registryPath + "YPos", 100));
+            if (jbkey != null)
+            {
+                if (bvckey != null)
+                {
+                    //try to get settings from registry
+                    xpos = Convert.ToDouble(bvckey.GetValue("XPos", 100));
+                    ypos = Convert.ToDouble(bvckey.GetValue("YPos", 100));
+                    Functions.HBPath = (string)bvckey.GetValue("HBPath", string.Empty);
+                    Functions.mp4boxPath = (string)bvckey.GetValue("mp4boxPath", string.Empty);
+                    Functions.APPath = (string)bvckey.GetValue("APPath", string.Empty);
+                    Functions.OutPath = (string)bvckey.GetValue("OutPath", string.Empty);
+                    Functions.RemoveAds = Convert.ToBoolean(bvckey.GetValue("RemoveAds", "False"));
+                    Functions.AutoCrop = Convert.ToBoolean(bvckey.GetValue("AutoCrop", "False"));
+                    Functions.AutoTVMeta = Convert.ToBoolean(bvckey.GetValue("AutoMeta", "False"));
+                    Functions.AutoMoviePoster = Convert.ToBoolean(bvckey.GetValue("AutoMoviePoster", "False"));
+                    Functions.AutoImportiTunes = Convert.ToBoolean(bvckey.GetValue("AutoImportiTunes", "False"));
+                    Functions.AutoDeleteExport = Convert.ToBoolean(bvckey.GetValue("AutoDeleteExport", "False"));
+                    Functions.mp4boxPath = (string)bvckey.GetValue("mp4boxPath", string.Empty);
+                    Functions.DefaultEncodeProfile = (int)bvckey.GetValue("EncodeProfile", 0);
+                }
+                else
+                {
+                    xpos = 100;
+                    ypos = 100;
+                }
+            }
+            else
+            {
+                xpos = 100;
+                ypos = 100;
+            }
 
+            //set window position
             Point location = new Point(xpos, ypos);
 
             this.Top = location.Y;
             this.Left = location.X;
-
-
-            //try to get settings from registry
-            Functions.HBPath = (string)Registry.CurrentUser.GetValue(registryPath + "HBPath", string.Empty);
-            Functions.mp4boxPath = (string)Registry.CurrentUser.GetValue(registryPath + "mp4boxPath", string.Empty);
-            Functions.APPath = (string)Registry.CurrentUser.GetValue(registryPath + "APPath", string.Empty);
-            Functions.OutPath = (string)Registry.CurrentUser.GetValue(registryPath + "OutPath", string.Empty);
-            TempForBool = (string)Registry.CurrentUser.GetValue(registryPath + "RemoveAds", "False");
-            if (TempForBool == "True")
-            {
-                Functions.RemoveAds = true;
-            }
-            else
-            {
-                Functions.RemoveAds = false;
-            }
-            TempForBool = (string)Registry.CurrentUser.GetValue(registryPath + "AutoCrop", "False");
-            if (TempForBool == "True")
-            {
-                Functions.AutoCrop = true;
-            }
-            else
-            {
-                Functions.AutoCrop = false;
-            }
-            TempForBool = (string)Registry.CurrentUser.GetValue(registryPath + "AutoMeta", "False");
-            if (TempForBool == "True")
-            {
-                Functions.AutoTVMeta = true;
-            }
-            else
-            {
-                Functions.AutoTVMeta = false;
-            }
-            TempForBool = (string)Registry.CurrentUser.GetValue(registryPath + "AutoMoviePoster", "False");
-            if (TempForBool == "True")
-            {
-                Functions.AutoMoviePoster = true;
-            }
-            else
-            {
-                Functions.AutoMoviePoster = false;
-            }
-            TempForBool = (string)Registry.CurrentUser.GetValue(registryPath + "AutoImportiTunes", "False");
-            if (TempForBool == "True")
-            {
-                Functions.AutoImportiTunes = true;
-            }
-            else
-            {
-                Functions.AutoImportiTunes = false;
-            }
-            Functions.mp4boxPath = (string)Registry.CurrentUser.GetValue(registryPath + "mp4boxPath", string.Empty);
-            TempForBool = (string)Registry.CurrentUser.GetValue(registryPath + "AutoDeleteExport", "False");
-            if (TempForBool == "True")
-            {
-                Functions.AutoDeleteExport = true;
-            }
-            else
-            {
-                Functions.AutoDeleteExport = false;
-            }
-            Functions.DefaultEncodeProfile = (int)Registry.CurrentUser.GetValue(registryPath + "EncodeProfile", 0);
 
             //get the major and minor version numbers of the OS
             Functions.OsMajor = osInfo.Version.Major;
@@ -120,6 +86,31 @@ namespace Batch_Video_Converter
 
             //set temp folder
             Functions.TempDir = System.IO.Path.GetTempPath();
+        }
+
+        private void OnClosed(object sender, EventArgs e)
+        {
+            Point position = new Point(this.Left, this.Top);
+
+            if (position.X != 100 && position.Y != 100)
+            {
+                RegistryKey jbkey = Registry.CurrentUser.OpenSubKey(@"Software\JasonBean", true);
+                RegistryKey bvckey = Registry.CurrentUser.OpenSubKey(@"Software\JasonBean\BVC", true);
+
+                if (jbkey == null)
+                {
+                    Registry.CurrentUser.CreateSubKey(@"Software\JasonBean");
+                }
+
+                if (bvckey == null)
+                {
+                    Registry.CurrentUser.CreateSubKey(@"Software\JasonBean\BVC");
+                    bvckey = Registry.CurrentUser.OpenSubKey(@"Software\JasonBean\BVC", true);
+                }
+
+                bvckey.SetValue("XPos", position.X.ToString());
+                bvckey.SetValue("YPos", position.Y.ToString());
+            }
         }
 
         private async void btnEncode_Click(object sender, RoutedEventArgs e)
@@ -1296,17 +1287,6 @@ namespace Batch_Video_Converter
 
                 //select item
                 lstVideos.SelectedIndex = intIndex;
-            }
-        }
-        
-        private void OnClosed(object sender, EventArgs e)
-        {
-            Point position = new Point(this.Left,this.Top);
-
-            if (position.X != xpos | position.Y != ypos)
-            {
-                Registry.SetValue(registryPath, "XPos", Convert.ToString(position.X));
-                Registry.SetValue(registryPath, "YPos", Convert.ToString(position.Y));
             }
         }
 
